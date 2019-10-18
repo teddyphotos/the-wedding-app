@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/peachyPeach"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/filterTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:fontFamily="@font/quicksand_bold"
+        android:text="Filters"
+        android:textColor="@color/brown900"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/seperator"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:orientation="vertical"
+        android:layout_marginTop="8dp"
+        android:background="@color/brown900"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/filterTextView" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/quicksand_bold"
+        android:textSize="18sp"
+        android:text="Category"
+        android:textColor="@color/brown900"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/seperator" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/quicksand_bold"
+        android:text="Location"
+        android:textColor="@color/brown900"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/textView8"
+        app:layout_constraintTop_toBottomOf="@+id/allEventTextView" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/quicksand_bold"
+        android:text="Dress Code"
+        android:textColor="@color/brown900"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/textView9"
+        app:layout_constraintTop_toBottomOf="@+id/allEventsTextView2" />
+
+    <TextView
+        android:id="@+id/religiousTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="8dp"
+        android:fontFamily="@font/quicksand_medium"
+        android:text="Religious Events"
+        android:textColor="@color/brown900"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/religiousButton"
+        app:layout_constraintStart_toStartOf="@+id/textView8"
+        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+
+    <TextView
+        android:id="@+id/HomeEventTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/quicksand_medium"
+        android:text="Home"
+        android:textColor="@color/brown900"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/HallEventTextView"
+        app:layout_constraintStart_toStartOf="@+id/HallEventTextView"
+        app:layout_constraintTop_toBottomOf="@+id/HallEventTextView" />
+
+    <TextView
+        android:id="@+id/allEventsTextView2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/quicksand_medium"
+        android:text="Any Place"
+        android:textColor="@color/brown900"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/HallEventTextView"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/HallEventTextView"
+        app:layout_constraintTop_toBottomOf="@+id/HomeEventTextView" />
+
+    <TextView
+        android:id="@+id/anyWearTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/quicksand_medium"
+        android:text="Any Type"
+        android:textColor="@color/brown900"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/HallEventTextView"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/HallEventTextView"
+        app:layout_constraintTop_toBottomOf="@+id/semiformalTextView" />
+
+    <TextView
+        android:id="@+id/semiformalTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/quicksand_medium"
+        android:text="Semi-Formal"
+        android:textColor="@color/brown900"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/HallEventTextView"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/HallEventTextView"
+        app:layout_constraintTop_toBottomOf="@+id/casualTextView" />
+
+    <TextView
+        android:id="@+id/casualTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/quicksand_medium"
+        android:text="Casual"
+        android:textColor="@color/brown900"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/HallEventTextView"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/HallEventTextView"
+        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+
+    <TextView
+        android:id="@+id/HallEventTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/quicksand_medium"
+        android:text="Wedding Hall"
+        android:textColor="@color/brown900"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/allEventTextView"
+        app:layout_constraintStart_toStartOf="@+id/allEventTextView"
+        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
+    <TextView
+        android:id="@+id/allEventTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/quicksand_medium"
+        android:text="All Events"
+        android:textColor="@color/brown900"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/religiousTextView"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/religiousTextView"
+        app:layout_constraintTop_toBottomOf="@+id/nonreligiousTextView" />
+
+    <TextView
+        android:id="@+id/nonreligiousTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/quicksand_medium"
+        android:text="Non Religious Events"
+        android:textColor="@color/brown900"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/religiousTextView"
+        app:layout_constraintStart_toStartOf="@+id/religiousTextView"
+        app:layout_constraintTop_toBottomOf="@+id/religiousTextView" />
+
+    <Button
+        android:id="@+id/religiousButton"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="30dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="8dp"
+        android:background="@color/peachyPeach"
+        app:layout_constraintBottom_toBottomOf="@+id/religiousTextView"
+        app:layout_constraintEnd_toEndOf="@+id/seperator"
+        app:layout_constraintTop_toTopOf="@+id/religiousTextView"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <Button
+        android:id="@+id/HallButton"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="30dp"
+        android:layout_height="0dp"
+        android:background="@color/peachyPeach"
+        app:layout_constraintBottom_toBottomOf="@+id/HallEventTextView"
+        app:layout_constraintEnd_toEndOf="@+id/allEventsButton"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/allEventsButton"
+        app:layout_constraintTop_toTopOf="@+id/HallEventTextView"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <Button
+        android:id="@+id/casualButton"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="30dp"
+        android:layout_height="0dp"
+        android:background="@color/peachyPeach"
+        app:layout_constraintBottom_toBottomOf="@+id/casualTextView"
+        app:layout_constraintEnd_toEndOf="@+id/allEventsButton"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/allEventsButton"
+        app:layout_constraintTop_toTopOf="@+id/casualTextView" />
+
+    <Button
+        android:id="@+id/semiformalButton"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="30dp"
+        android:layout_height="0dp"
+        android:background="@color/peachyPeach"
+        app:layout_constraintBottom_toBottomOf="@+id/semiformalTextView"
+        app:layout_constraintEnd_toEndOf="@+id/allEventsButton"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/allEventsButton"
+        app:layout_constraintTop_toTopOf="@+id/semiformalTextView" />
+
+    <Button
+        android:id="@+id/HomeButton"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="30dp"
+        android:layout_height="0dp"
+        android:background="@color/peachyPeach"
+        app:layout_constraintBottom_toBottomOf="@+id/HomeEventTextView"
+        app:layout_constraintEnd_toEndOf="@+id/HallButton"
+        app:layout_constraintStart_toStartOf="@+id/HallButton"
+        app:layout_constraintTop_toTopOf="@+id/HomeEventTextView" />
+
+    <Button
+        android:id="@+id/anywhereEventsButton"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="30dp"
+        android:layout_height="0dp"
+        android:background="@drawable/ic_check_yellow_24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/allEventsTextView2"
+        app:layout_constraintEnd_toEndOf="@+id/HallButton"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/HallButton"
+        app:layout_constraintTop_toTopOf="@+id/allEventsTextView2" />
+
+    <Button
+        android:id="@+id/anyWearButton"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="30dp"
+        android:layout_height="0dp"
+        android:background="@drawable/ic_check_yellow_24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/anyWearTextView"
+        app:layout_constraintEnd_toEndOf="@+id/HallButton"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/HallButton"
+        app:layout_constraintTop_toTopOf="@+id/anyWearTextView" />
+
+    <Button
+        android:id="@+id/nonReligiousButton"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/peachyPeach"
+        app:layout_constraintBottom_toBottomOf="@+id/nonreligiousTextView"
+        app:layout_constraintEnd_toEndOf="@+id/religiousButton"
+        app:layout_constraintStart_toStartOf="@+id/religiousButton"
+        app:layout_constraintTop_toTopOf="@+id/nonreligiousTextView" />
+
+    <Button
+        android:id="@+id/allEventsButton"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/ic_check_yellow_24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/allEventTextView"
+        app:layout_constraintEnd_toEndOf="@+id/nonReligiousButton"
+        app:layout_constraintStart_toStartOf="@+id/nonReligiousButton"
+        app:layout_constraintTop_toTopOf="@+id/allEventTextView" />
+
+    <Button
+        android:id="@+id/apply"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/ic_check_yellow_24dp"
+        android:fontFamily="@font/quicksand_bold"
+        app:layout_constraintBottom_toBottomOf="@+id/filterTextView"
+        app:layout_constraintEnd_toEndOf="@+id/seperator"
+        app:layout_constraintTop_toTopOf="@+id/filterTextView" />
+
+    <Button
+        android:id="@+id/cancel"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/ic_clear_yellow_24dp"
+        android:fontFamily="@font/quicksand_bold"
+        app:layout_constraintBottom_toBottomOf="@+id/filterTextView"
+        app:layout_constraintStart_toStartOf="@+id/seperator"
+        app:layout_constraintTop_toTopOf="@+id/filterTextView" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

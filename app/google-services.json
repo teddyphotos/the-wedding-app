@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "499258378676",
+    "firebase_url": "https://tulips-33e03.firebaseio.com",
+    "project_id": "tulips-33e03",
+    "storage_bucket": "tulips-33e03.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:499258378676:android:ae3674fe2b14265f998ae1",
+        "android_client_info": {
+          "package_name": "com.example.tulips"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "499258378676-eukn3gr5u72rqo5ivi8du6cadocoi09l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZ4zX9vm80v3KXq6WewRriU3sK43JNTKg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "499258378676-eukn3gr5u72rqo5ivi8du6cadocoi09l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
