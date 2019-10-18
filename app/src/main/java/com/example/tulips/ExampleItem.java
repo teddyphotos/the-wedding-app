@@ -1,18 +1,22 @@
 package com.example.tulips;
 
-public class ExampleItem {
-    private int mImageResource;
-    private String mText1;
+import android.graphics.Bitmap;
 
-    public ExampleItem(int mImageResource, String mText1){
+public class ExampleItem {
+//    private int mImageResource;
+    private String mText1;
+    private Bitmap mImageResource;
+
+    public ExampleItem(Bitmap mImageResource, String mText1){
         this.mImageResource = mImageResource;
         this.mText1 = mText1;
     }
 
-    public int getmImageResource(){
+    public Bitmap getmImageBitmap(){
         return mImageResource;
     }
     public String getmText1(){
         return mText1;
     }
+
 }

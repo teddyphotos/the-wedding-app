@@ -8,10 +8,14 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RadioButton;
@@ -45,14 +49,27 @@ public class MainActivity extends AppCompatActivity implements bottomSheetDialog
     FragmentTimeline fragmentTimeline;
 
     private RequestQueue mQueue;
+
     boolean eventDataExists = false;
+    boolean imageDataExists = false;
+    boolean eventDataDownloaded = false;
+    boolean imageDataDownloaded = false;
+    GetInitialData getInitialData;
+    GetImageData getImageData;
+
     String initialUrl = "https://dp-wedding-app.herokuapp.com/getevents";
+    String imageDataURL = "https://dp-wedding-app.herokuapp.com/geteventdetails";
     FragmentHome fragmentHome;
-    private static final String FILE_NAME = "eventData.txt";
+    public static final String FILE_NAME = "eventData.txt";
+    public static final String IMAGE_FILE_NAME = "imageData.txt";
     JSONObject eventDetails;
+    JSONObject imageData;
 
     public static final String SHARED_PREFS = "sharedPrefs";
     public static final String EVENT_DATA_STATE = "wasEventDownloaded";
+    public static final String IMAGE_DATA_STATE = "wasImageDownloaded";
+
+    private BottomNavigationView bottomNavigationView;
 
 
 
@@ -83,30 +100,46 @@ public class MainActivity extends AppCompatActivity implements bottomSheetDialog
                     break;
             }
             if(scheduleSelected==0){
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        selectedFragment).commit();
+                if(eventDataDownloaded && imageDataDownloaded){
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                            selectedFragment).commit();
+                }else{
+                    Toast.makeText(MainActivity.this, "Please Wait...", Toast.LENGTH_SHORT).show();
+                }
+
+
 
             }else{
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        fragmentTimeline).commit();
+                if(eventDataDownloaded && imageDataDownloaded){
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                            fragmentTimeline).commit();
+                }else{
+                    Toast.makeText(MainActivity.this, "Please Wait...", Toast.LENGTH_SHORT).show();
+                }
 
             }
 
             if(menuItem.getItemId()==R.id.nav_home || menuItem.getItemId()==R.id.nav_about){
-                switch (menuItem.getItemId()){
-                    case R.id.nav_home:
-                        toolbar.setTitle("Home");
-                        toolbar.setVisibility(View.VISIBLE);
-                        break;
-                    case R.id.nav_about:
-                        toolbar.setTitle("About");
-                        toolbar.setVisibility(View.VISIBLE);
-                        break;
+
+                if(eventDataDownloaded && imageDataDownloaded){
+                    switch (menuItem.getItemId()){
+                        case R.id.nav_home:
+                            toolbar.setTitle("Home");
+                            toolbar.setVisibility(View.VISIBLE);
+                            break;
+                        case R.id.nav_about:
+                            toolbar.setTitle("About");
+                            toolbar.setVisibility(View.VISIBLE);
+                            break;
+                    }
+
+                }
+            }else{
+                if(eventDataDownloaded && imageDataDownloaded){
+                    toolbar.setTitle("");
+                    toolbar.setVisibility(View.GONE);
                 }
 
-            }else{
-                toolbar.setTitle("");
-                toolbar.setVisibility(View.GONE);
             }
             return true;
         }
@@ -121,10 +154,17 @@ public class MainActivity extends AppCompatActivity implements bottomSheetDialog
         setContentView(R.layout.activity_main);
         fragmentHome = new FragmentHome();
         fragmentTimeline = new FragmentTimeline();
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
+
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,fragmentHome).commit();
+
+//        bottomNavigationView.setClickable(false);
+        bottomNavigationView.getMenu().getItem(0).setEnabled(false);
+        bottomNavigationView.getMenu().getItem(1).setEnabled(false);
+        bottomNavigationView.getMenu().getItem(2).setEnabled(false);
 
 
 
@@ -133,22 +173,42 @@ public class MainActivity extends AppCompatActivity implements bottomSheetDialog
         toolbar.setTitle("Home");
 
         mQueue = Volley.newRequestQueue(this);
-        GetInitialData getInitialData = new GetInitialData();
-        Toast.makeText(MainActivity.this, "Starting Data Fetch", Toast.LENGTH_SHORT).show();
+        getInitialData = new GetInitialData();
+        getImageData = new GetImageData();
 
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         boolean haveData = sharedPreferences.getBoolean(EVENT_DATA_STATE, false);
+        boolean haveImageData = sharedPreferences.getBoolean(IMAGE_DATA_STATE, false);
 
-        if(haveData){
+        if(haveData && haveImageData){
 
-            Toast.makeText(this, "We Got Data !", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "We Got Both Data !", Toast.LENGTH_SHORT).show();
             fragmentHome.eventDataExists = true;
             fragmentTimeline.eventDataExists = true;
             eventDataExists = true;
+            fragmentHome.imageDataExists = true;
+            fragmentTimeline.imageDataExists = true;
+            imageDataExists = true;
             loadData();
+            loadImageData();
+            imageDataDownloaded  =true;
+            eventDataDownloaded = true;
+//            bottomNavigationView.setClickable(true);                                              NEEDS CHECKING
+            bottomNavigationView.getMenu().getItem(0).setEnabled(true);
+            bottomNavigationView.getMenu().getItem(1).setEnabled(true);
+            bottomNavigationView.getMenu().getItem(2).setEnabled(true);
         }else{
-            getInitialData.execute();
+            if(isNetworkAvailable()){
+                getInitialData.execute();
+                getImageData.execute();
+            }else{
+//                fragmentHome.updateTextView(("There is no internet Connection"));
+            }
+
+
         }
+
+
 
 
 
@@ -175,8 +235,11 @@ public class MainActivity extends AppCompatActivity implements bottomSheetDialog
 
                 String finalEventString = sb.toString();
                 System.out.println(finalEventString);
-                Toast.makeText(this, "File Locked and Loaded", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "File Locked and Loaded", Toast.LENGTH_SHORT).show();
                 eventDetails = new JSONObject(finalEventString);
+                eventDataDownloaded = true;
+                changeBottomNavigationBarEnable();
+
 
 
 
@@ -206,9 +269,114 @@ public class MainActivity extends AppCompatActivity implements bottomSheetDialog
 
     }
 
+    public void changeBottomNavigationBarEnable(){
+        if(imageDataDownloaded && eventDataDownloaded){
+//            bottomNavigationView.setClickable(true);                                              NEEDS CHECKING
+            bottomNavigationView.getMenu().getItem(0).setEnabled(true);
+            bottomNavigationView.getMenu().getItem(1).setEnabled(true);
+            bottomNavigationView.getMenu().getItem(2).setEnabled(true);
+        }
+
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        makePreperations();
+
+    }
+
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+
+    public void makePreperations(){
+        if(!imageDataDownloaded || !eventDataDownloaded){
+            if(isNetworkAvailable()) {
+                fragmentHome.updateTextView("Downloading Wedding Schedule\nPlease Wait");
+                if(getInitialData.getStatus()==AsyncTask.Status.RUNNING){
+
+                }else{
+                    GetInitialData getData = new GetInitialData();
+                    getData.execute();
+                }
+                if(getImageData.getStatus()==AsyncTask.Status.RUNNING){
+
+                }else{
+                    GetImageData getData = new GetImageData();
+                    getData.execute();
+                }
+
+            }
+
+        }
+
+    }
+
+
+    public void loadImageData(){
+
+        if(imageDataExists){
+            FileInputStream fis = null;
+
+            try {
+
+                fis = openFileInput(IMAGE_FILE_NAME);
+                InputStreamReader isr = new InputStreamReader(fis);
+                BufferedReader br = new BufferedReader(isr);
+                StringBuilder sb = new StringBuilder();
+                String imageString;
+
+                while((imageString=br.readLine())!=null){
+                    sb.append(imageString).append("\n");
+                }
+
+                String finalImageString = sb.toString();
+                System.out.println(finalImageString);
+//                Toast.makeText(this, "Image File Locked and Loaded", Toast.LENGTH_SHORT).show();
+                imageData = new JSONObject(finalImageString);
+                imageDataDownloaded = true;
+
+                changeBottomNavigationBarEnable();
 
 
 
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+                System.out.println("COULDN'T CONVERT IMAGE STRING TO JSON");
+            } finally {
+                if(fis!=null){
+                    try {
+                        fis.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+        }else{
+            System.out.println("Main Activity couldn't find the image file in internal storage");
+        }
+
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if(hasFocus)
+            makePreperations();
+
+    }
 
     @Override
     public void applyFilters(int religious, int location, int dress) {
@@ -222,29 +390,79 @@ public class MainActivity extends AppCompatActivity implements bottomSheetDialog
 
     }
 
+    public class GetImageData extends AsyncTask<String, String, String>{
+        @Override
+        protected String doInBackground(String... strings) {
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, imageDataURL, null,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+//                            Toast.makeText(MainActivity.this, "Finished Fetching Image Data", Toast.LENGTH_SHORT).show();
+                            Log.d("SUCCESSFULLL","JSON FILE FETCHED SUCCESSFULLY");
+                            String mydata = response.toString();
+                            System.out.println(mydata);
+
+                            FileOutputStream fos = null;
+
+                            try {
+
+                                fos = openFileOutput(IMAGE_FILE_NAME, MODE_PRIVATE);
+                                fos.write(mydata.getBytes());
+                                Log.d("IMAGE DATA FILE WRITTEN","Image file has been written to internal storage");
+                                imageDataExists = true;
+                                if(fragmentTimeline!=null){
+                                    fragmentTimeline.imageDataExists = true;
+                                }
+                                if(fragmentHome!=null){
+                                    fragmentHome.imageDataExists = true;
+                                }
+
+                                saveImageData(true);
+                                loadImageData();
+
+
+
+                            } catch (FileNotFoundException e) {
+                                e.printStackTrace();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }finally {
+                                if (fos != null){
+                                    try {
+                                        fos.close();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+
+
+
+
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            error.printStackTrace();
+                            Toast.makeText(MainActivity.this, "Error Downloading Images", Toast.LENGTH_SHORT).show();
+                            Log.d("ERRORRRR","THERE WAS AN ERROR DOWNLOADING IMAGE");
+                        }
+            });
+            mQueue.add(request);
+            return null;
+        }
+    }
+
 
 
     public class GetInitialData extends AsyncTask<String, String, String>{
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-        }
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-
-
-
-
-        }
         @Override
         protected String doInBackground(String... strings) {
             JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, initialUrl, null,
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
-                            Toast.makeText(MainActivity.this, "Finished Fetching Data", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(MainActivity.this, "Finished Fetching Data", Toast.LENGTH_SHORT).show();
                             Log.d("SUCCESSFULLL","JSON FILE FETCHED SUCCESSFULLY");
                             String mydata = response.toString();
                             System.out.println(mydata);
@@ -266,6 +484,7 @@ public class MainActivity extends AppCompatActivity implements bottomSheetDialog
                                 }
 
                                 saveData(true);
+                                loadData();
 
 
 
@@ -282,19 +501,13 @@ public class MainActivity extends AppCompatActivity implements bottomSheetDialog
                                     }
                                 }
                             }
-
-
-
-
-
-
                         }
                     },
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             error.printStackTrace();
-                            Toast.makeText(MainActivity.this, "ERROR", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, "Error downloading Data", Toast.LENGTH_SHORT).show();
                             Log.d("ERRORRRR","THERE WAS AN ERROR");
                             fragmentHome.textView.setText("There is no internet Connection");
 
@@ -305,14 +518,25 @@ public class MainActivity extends AppCompatActivity implements bottomSheetDialog
         }
     }
 
+    private void saveImageData(boolean state){
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(IMAGE_DATA_STATE, state);
+        editor.apply();
+    }
+
+
+
+
     private void saveData(boolean state) {
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean(EVENT_DATA_STATE, state);
         editor.apply();
-
-
     }
+
+
+
 
 
 }

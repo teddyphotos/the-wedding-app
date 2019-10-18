@@ -20,6 +20,7 @@ public class FragmentHome extends Fragment {
     TextView textView;
     Fragment currentEventFragment;
     boolean eventDataExists = false;
+    boolean imageDataExists= false;
 
 
 
@@ -57,8 +58,12 @@ public class FragmentHome extends Fragment {
         super.onResume();
         if(eventDataExists){
             downloadFinished();
+        }else{
+            textView.setText("There is no Internet Connection.");
         }
     }
+
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -86,5 +91,9 @@ public class FragmentHome extends Fragment {
         currentEventFragment = new current_event_card_Fragment();
         ft.replace(R.id.current_event_fragment_container,currentEventFragment).commit();
 
+    }
+
+    public void updateTextView(String text){
+        textView.setText(text);
     }
 }

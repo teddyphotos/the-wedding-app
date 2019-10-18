@@ -47,7 +47,10 @@ public class FragmentTimeline extends Fragment implements FilterShowerFragment.F
     JSONObject eventDetails;
     private static final String FILE_NAME = "eventData.txt";
     boolean eventDataExists = false;
+    boolean imageDataExists = false;
     public static final String EXTRA_EVENT_ID = "com.example.tulips.timeline.extra_eventID";
+    public static final String EXTRA_EVENT_TITLE = "com.example.tulips.timeline.extra_eventTitle";
+
 
 
 
@@ -242,8 +245,11 @@ public class FragmentTimeline extends Fragment implements FilterShowerFragment.F
                 if(thisDayItems.get(position).isRecietful()){
 
                     String eventID = thisDayItems.get(position).getEventID();
+                    String eventTitle = thisDayItems.get(position).getTitle();
                     Intent i = new Intent(getActivity(), currentRecitingVerses.class);
                     i.putExtra(EXTRA_EVENT_ID, eventID);
+                    i.putExtra(EXTRA_EVENT_TITLE, eventTitle);
+
                     startActivity(i);
                 }
             }
@@ -462,7 +468,7 @@ public class FragmentTimeline extends Fragment implements FilterShowerFragment.F
 
     @Override
     public void onResetButtonClicked() {
-        Toast.makeText(getContext(), "Hurrahhh", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getContext(), "Hurrahhh", Toast.LENGTH_SHORT).show();
     }
 
 
@@ -485,7 +491,7 @@ public class FragmentTimeline extends Fragment implements FilterShowerFragment.F
 
                 String finalEventString = sb.toString();
                 System.out.println(finalEventString);
-                Toast.makeText(getContext(), "File Locked and Loaded", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(), "File Locked and Loaded", Toast.LENGTH_SHORT).show();
                 eventDetails = new JSONObject(finalEventString);
                 System.out.println("CONVERSION SUCCESSFUL");
 

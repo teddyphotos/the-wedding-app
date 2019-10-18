@@ -31,8 +31,9 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleV
     @Override
     public void onBindViewHolder(@NonNull ExampleViewHolder holder, int position) {
         ExampleItem currentItem = mExampleList.get(position);
-        holder.mImageView.setImageResource(currentItem.getmImageResource());
+//        holder.mImageView.setImageResource(currentItem.getmImageBitmap());
         holder.mTextView1.setText(currentItem.getmText1());
+        holder.mImageView.setImageBitmap(currentItem.getmImageBitmap());
     }
 
     @Override
