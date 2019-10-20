@@ -34,7 +34,7 @@ public class FragmentHome extends Fragment {
         View v = inflater.inflate(R.layout.fragment_home,container,false);
         textView = v.findViewById(R.id.textView11);
 
-        if(eventDataExists){
+        if(eventDataExists && imageDataExists){
             if(textView.getVisibility()!=View.GONE){
                 textView.setVisibility(View.GONE);
                 FragmentTransaction ft = getChildFragmentManager().beginTransaction();
@@ -50,18 +50,21 @@ public class FragmentHome extends Fragment {
 
 
 
+
         return v;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if(eventDataExists){
+        if(eventDataExists && imageDataExists){
             downloadFinished();
         }else{
             textView.setText("There is no Internet Connection.");
         }
     }
+
+
 
 
 

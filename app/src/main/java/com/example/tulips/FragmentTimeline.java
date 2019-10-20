@@ -490,10 +490,10 @@ public class FragmentTimeline extends Fragment implements FilterShowerFragment.F
                 }
 
                 String finalEventString = sb.toString();
-                System.out.println(finalEventString);
+//                System.out.println(finalEventString);
 //                Toast.makeText(getContext(), "File Locked and Loaded", Toast.LENGTH_SHORT).show();
                 eventDetails = new JSONObject(finalEventString);
-                System.out.println("CONVERSION SUCCESSFUL");
+//                System.out.println("CONVERSION SUCCESSFUL");
 
                 try {
                     JSONArray jsonArray = eventDetails.getJSONArray("events");
@@ -518,7 +518,7 @@ public class FragmentTimeline extends Fragment implements FilterShowerFragment.F
                         try {
                             datex = inputFormat.parse(date);
                             formattedDate = outputFormat.format(datex);
-                            System.out.println(formattedDate);
+//                            System.out.println(formattedDate);
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
@@ -551,7 +551,7 @@ public class FragmentTimeline extends Fragment implements FilterShowerFragment.F
                 e.printStackTrace();
             } catch (JSONException e) {
                 e.printStackTrace();
-                System.out.println("COULDN'T CONVERT STRING TO JSON");
+//                System.out.println("COULDN'T CONVERT STRING TO JSON");
             } finally {
                 if(fis!=null){
                     try {
@@ -563,7 +563,7 @@ public class FragmentTimeline extends Fragment implements FilterShowerFragment.F
             }
 
         }else{
-            System.out.println("Fragment TimeLine couldn't find the file in internal storage");
+//            System.out.println("Fragment TimeLine couldn't find the file in internal storage");
         }
 
 

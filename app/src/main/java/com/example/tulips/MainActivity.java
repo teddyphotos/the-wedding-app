@@ -234,7 +234,7 @@ public class MainActivity extends AppCompatActivity implements bottomSheetDialog
                 }
 
                 String finalEventString = sb.toString();
-                System.out.println(finalEventString);
+//                System.out.println(finalEventString);
 //                Toast.makeText(this, "File Locked and Loaded", Toast.LENGTH_SHORT).show();
                 eventDetails = new JSONObject(finalEventString);
                 eventDataDownloaded = true;
@@ -249,7 +249,7 @@ public class MainActivity extends AppCompatActivity implements bottomSheetDialog
                 e.printStackTrace();
             } catch (JSONException e) {
                 e.printStackTrace();
-                System.out.println("COULDN'T CONVERT STRING TO JSON");
+//                System.out.println("COULDN'T CONVERT STRING TO JSON");
             } finally {
                 if(fis!=null){
                     try {
@@ -261,7 +261,7 @@ public class MainActivity extends AppCompatActivity implements bottomSheetDialog
             }
 
         }else{
-            System.out.println("Main Activity couldn't find the file in internal storage");
+//            System.out.println("Main Activity couldn't find the file in internal storage");
         }
 
 
@@ -338,14 +338,21 @@ public class MainActivity extends AppCompatActivity implements bottomSheetDialog
                 }
 
                 String finalImageString = sb.toString();
-                System.out.println(finalImageString);
+//                System.out.println(finalImageString);
 //                Toast.makeText(this, "Image File Locked and Loaded", Toast.LENGTH_SHORT).show();
                 imageData = new JSONObject(finalImageString);
                 imageDataDownloaded = true;
 
                 changeBottomNavigationBarEnable();
+                fragmentHome.eventDataExists = true;
+                fragmentHome.imageDataExists = true;
 
+                if(fragmentHome.textView!=null){
+                    if(fragmentHome.textView.getVisibility()!=View.GONE){
+                        fragmentHome.downloadFinished();
+                    }
 
+                }
 
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -353,7 +360,7 @@ public class MainActivity extends AppCompatActivity implements bottomSheetDialog
                 e.printStackTrace();
             } catch (JSONException e) {
                 e.printStackTrace();
-                System.out.println("COULDN'T CONVERT IMAGE STRING TO JSON");
+//                System.out.println("COULDN'T CONVERT IMAGE STRING TO JSON");
             } finally {
                 if(fis!=null){
                     try {
@@ -365,7 +372,7 @@ public class MainActivity extends AppCompatActivity implements bottomSheetDialog
             }
 
         }else{
-            System.out.println("Main Activity couldn't find the image file in internal storage");
+//            System.out.println("Main Activity couldn't find the image file in internal storage");
         }
 
     }
@@ -400,7 +407,7 @@ public class MainActivity extends AppCompatActivity implements bottomSheetDialog
 //                            Toast.makeText(MainActivity.this, "Finished Fetching Image Data", Toast.LENGTH_SHORT).show();
                             Log.d("SUCCESSFULLL","JSON FILE FETCHED SUCCESSFULLY");
                             String mydata = response.toString();
-                            System.out.println(mydata);
+//                            System.out.println(mydata);
 
                             FileOutputStream fos = null;
 
@@ -465,8 +472,8 @@ public class MainActivity extends AppCompatActivity implements bottomSheetDialog
 //                            Toast.makeText(MainActivity.this, "Finished Fetching Data", Toast.LENGTH_SHORT).show();
                             Log.d("SUCCESSFULLL","JSON FILE FETCHED SUCCESSFULLY");
                             String mydata = response.toString();
-                            System.out.println(mydata);
-                            fragmentHome.downloadFinished();
+//                            System.out.println(mydata);
+//                            fragmentHome.downloadFinished();
 
                             FileOutputStream fos = null;
 
