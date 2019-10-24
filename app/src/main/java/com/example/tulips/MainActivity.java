@@ -208,11 +208,6 @@ public class MainActivity extends AppCompatActivity implements bottomSheetDialog
 
         }
 
-
-
-
-
-
     }
 
 

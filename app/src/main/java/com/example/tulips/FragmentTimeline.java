@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 
@@ -50,6 +49,8 @@ public class FragmentTimeline extends Fragment implements FilterShowerFragment.F
     boolean imageDataExists = false;
     public static final String EXTRA_EVENT_ID = "com.example.tulips.timeline.extra_eventID";
     public static final String EXTRA_EVENT_TITLE = "com.example.tulips.timeline.extra_eventTitle";
+    public static final String EXTRA_EVENT_DESCRIPTION = "com.example.tulips.timeline.extra_eventDescription";
+
 
 
 
@@ -239,10 +240,12 @@ public class FragmentTimeline extends Fragment implements FilterShowerFragment.F
         mAdapter = new EventItemAdapter(thisDayItems);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
-        mAdapter.setOnItemClickListener(new EventItemAdapter.OnItemClickListener() {
+        mAdapter.setOnVerseClickListener(new EventItemAdapter.OnVerseClickListener() {
             @Override
-            public void onItemClicked(int position) {
+            public void onVerseClicked(int position) {
                 if(thisDayItems.get(position).isRecietful()){
+
+
 
                     String eventID = thisDayItems.get(position).getEventID();
                     String eventTitle = thisDayItems.get(position).getTitle();
@@ -251,6 +254,26 @@ public class FragmentTimeline extends Fragment implements FilterShowerFragment.F
                     i.putExtra(EXTRA_EVENT_TITLE, eventTitle);
 
                     startActivity(i);
+                }
+            }
+        });
+        mAdapter.setOnDetailClickListener(new EventItemAdapter.OnDetailClickListener() {
+            @Override
+            public void onDetailClicked(int position) {
+                if(thisDayItems.get(position).isRecietful()){
+
+
+
+                    String eventID = thisDayItems.get(position).getEventID();
+                    String eventTitle = thisDayItems.get(position).getTitle();
+                    String eventDescription = thisDayItems.get(position).getDescription();
+//                    Toast.makeText(getContext(), "Detail Clicked of "+eventTitle, Toast.LENGTH_SHORT).show();
+                    Intent i = new Intent(getActivity(), currentRecitingDetail.class);
+                    i.putExtra(EXTRA_EVENT_ID, eventID);
+                    i.putExtra(EXTRA_EVENT_TITLE, eventTitle);
+                    i.putExtra(EXTRA_EVENT_DESCRIPTION, eventDescription);
+                    startActivity(i);
+
                 }
             }
         });
@@ -430,7 +453,7 @@ public class FragmentTimeline extends Fragment implements FilterShowerFragment.F
                         filterShowerFragment = new FilterShowerFragment(mReligious);
                         getFragmentManager().beginTransaction()
                                 .replace(R.id.filterShower, filterShowerFragment).commit();
-//                        filterShowerFragment.textView.setText(mReligious);
+//                        filterShowerFragment.descriptionHolder.setText(mReligious);
                     }
 
                 }
